@@ -1,17 +1,19 @@
-const http = require('http')
-
 //import express
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
-//use allow us to add a new middleware function
-app.use("/add-product",(req, res, next)=>{
-    console.log("On the product page");
-    res.send('<h1> Hello from Product! </h1>');
-}) 
-app.use("/",(req, res, next)=>{
-    console.log("In the middleware");
-    res.send('<h1> Hello from Express! </h1>');
-}) 
-const server = http.createServer(app);
-server.listen(3000)
+const adminRoutes = require('./routes/admin')
+const shopRoute = require('./routes/shop')
+
+app.use(bodyParser.urlencoded({extended: false})) //parse the incoming body, install by using body-parser
+
+app.use(adminRoutes)
+app.use(shopRoute)
+
+
+//when url is wrong or inaccessible
+app.use((req, res, next)=>{
+    res.status(404).send('<h1>Page Not Found</h1>')
+})
+app.listen(3000)
