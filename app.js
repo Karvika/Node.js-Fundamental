@@ -8,7 +8,7 @@ const adminRoutes = require('./routes/admin')
 const shopRoute = require('./routes/shop')
 
 app.use(bodyParser.urlencoded({extended: false})) //parse the incoming body, install by using body-parser
-
+app.use(express.static(path.join(__dirname,'public'))) //static folder that can be used in html files for rendering
 //using filter: when in url it has common path, here '/admin' is common path like '/admin/add-product' and '/admin/product'
 app.use('/admin',adminRoutes)
 app.use(shopRoute)
